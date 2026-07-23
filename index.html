@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROI Calculator — Return on Investment | Tabutility</title>
-  <meta name="description" content="Calculate return on investment (ROI), annualised return, and profit/loss for any investment. Simple and detailed ROI analysis." />
-  <meta name="keywords" content="roi calculator, return on investment, investment return, annualised return, profit calculator" />
-  <link rel="canonical" href="https://roi.tabutility.com/" />
-  <meta property="og:title" content="ROI Calculator — Return on Investment" />
-  <meta property="og:description" content="Calculate ROI, annualised return and profit for any investment instantly." />
+  <title>US Capital Gains Tax Calculator 2026 | Tabutility</title>
+  <meta name="description" content="Calculate US capital gains tax for 2026. Short-term vs long-term rates, all filing statuses, NIIT, and state tax." />
+  <meta name="keywords" content="us capital gains tax calculator, long term capital gains 2026, short term capital gains, capital gains tax rate" />
+  <link rel="canonical" href="https://us-capital-gains-tax.tabutility.com/" />
+  <meta property="og:title" content="US Capital Gains Tax Calculator 2026" />
+  <meta property="og:description" content="Calculate short-term and long-term capital gains tax for 2026 including NIIT." />
   <meta property="og:type" content="website" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇺🇸</text></svg>" />
   <meta name="robots" content="index, follow" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7039091592734005" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-78VZWJ5B1W"></script>
@@ -24,25 +24,67 @@
 <script type="text/babel">
 //<![CDATA[
 const { useState } = React;
-function fmt(n){return '$'+Math.abs(Math.round(n)).toLocaleString();}
-function fmtPct(n){return (n>=0?'+':'')+n.toFixed(2)+'%';}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+
+// 2026 long-term CGT brackets (0%, 15%, 20%)
+const LTCG_BRACKETS = {
+  single:      [{ limit: 48350, rate: 0 }, { limit: 533400, rate: 0.15 }, { limit: Infinity, rate: 0.20 }],
+  married:     [{ limit: 96700, rate: 0 }, { limit: 600050, rate: 0.15 }, { limit: Infinity, rate: 0.20 }],
+  hoh:         [{ limit: 64750, rate: 0 }, { limit: 566700, rate: 0.15 }, { limit: Infinity, rate: 0.20 }],
+};
+
+// 2026 ordinary income brackets for short-term
+const ST_BRACKETS = {
+  single:  [{ limit: 11925, rate: 0.10 }, { limit: 48475, rate: 0.12 }, { limit: 103350, rate: 0.22 }, { limit: 197300, rate: 0.24 }, { limit: 250525, rate: 0.32 }, { limit: 626350, rate: 0.35 }, { limit: Infinity, rate: 0.37 }],
+  married: [{ limit: 23850, rate: 0.10 }, { limit: 96950, rate: 0.12 }, { limit: 206700, rate: 0.22 }, { limit: 394600, rate: 0.24 }, { limit: 501050, rate: 0.32 }, { limit: 751600, rate: 0.35 }, { limit: Infinity, rate: 0.37 }],
+  hoh:     [{ limit: 17000, rate: 0.10 }, { limit: 64850, rate: 0.12 }, { limit: 103350, rate: 0.22 }, { limit: 197300, rate: 0.24 }, { limit: 250500, rate: 0.32 }, { limit: 626350, rate: 0.35 }, { limit: Infinity, rate: 0.37 }],
+};
+
+function taxOnGain(income, gain, brackets) {
+  // Tax is on the gain that falls above current income band
+  let totalIncome = income + gain;
+  let taxOnTotal = calcTax(totalIncome, brackets);
+  let taxOnIncome = calcTax(income, brackets);
+  return Math.max(0, taxOnTotal - taxOnIncome);
+}
+
+function calcTax(amount, brackets) {
+  let tax = 0, prev = 0;
+  for (const b of brackets) {
+    const slice = Math.min(amount, b.limit) - prev;
+    if (slice <= 0) break;
+    tax += slice * b.rate;
+    prev = b.limit;
+    if (amount <= b.limit) break;
+  }
+  return tax;
+}
 
 function App() {
-  const [initial, setInitial] = useState(10000);
-  const [final, setFinal] = useState(14500);
-  const [years, setYears] = useState(3);
-  const [fees, setFees] = useState(0);
+  const [filing, setFiling] = useState('single');
+  const [income, setIncome] = useState(85000);
+  const [gain, setGain] = useState(25000);
+  const [term, setTerm] = useState('long');
+  const [stateRate, setStateRate] = useState(0);
+  const [costBasis, setCostBasis] = useState(50000);
+  const [salePrice, setSalePrice] = useState(75000);
 
-  const inv = Number(initial)||0;
-  const fin = Number(final)||0;
-  const yrs = Number(years)||1;
-  const fee = Number(fees)||0;
+  const netGain = Math.max(0, (Number(salePrice)||0) - (Number(costBasis)||0));
+  const actualGain = gain !== undefined ? Number(gain) : netGain;
+  const inc = Number(income)||0;
+  const g = Number(gain)||0;
 
-  const netFinal = fin - fee;
-  const profit = netFinal - inv;
-  const roi = inv > 0 ? (profit / inv * 100) : 0;
-  const annualised = inv > 0 && yrs > 0 ? (Math.pow(netFinal/inv, 1/yrs)-1)*100 : 0;
-  const positive = profit >= 0;
+  const brackets = term === 'long' ? LTCG_BRACKETS[filing] : ST_BRACKETS[filing];
+  const fedTax = term === 'long' ? taxOnGain(inc, g, brackets) : taxOnGain(inc, g, ST_BRACKETS[filing]);
+
+  // NIIT: 3.8% on lesser of (net investment income or MAGI exceeding threshold)
+  const niitThreshold = filing === 'married' ? 250000 : 200000;
+  const niit = term === 'long' && inc + g > niitThreshold ? Math.min(g, inc + g - niitThreshold) * 0.038 : 0;
+
+  const stateTax = g * (Number(stateRate)||0) / 100;
+  const totalTax = fedTax + niit + stateTax;
+  const effectiveRate = g > 0 ? totalTax / g * 100 : 0;
+  const netProceeds = g - totalTax;
 
   return (
     <div style={{maxWidth:520,margin:'0 auto',paddingBottom:40}}>
@@ -50,54 +92,69 @@ function App() {
         <a href="https://tabutility.com" style={{color:'#a5b4fc',textDecoration:'none',fontSize:14}}>← All Tools</a>
         <span style={{color:'#fff',fontWeight:700,fontSize:15}}>⚡ Tabutility</span>
       </div>
-      <div style={{background:'linear-gradient(135deg,#0891b2,#0e7490)',padding:'28px 20px',textAlign:'center',color:'#fff'}}>
-        <div style={{fontSize:36,marginBottom:8}}>📈</div>
-        <h1 style={{margin:'0 0 6px',fontSize:22,fontWeight:900}}>ROI Calculator</h1>
-        <p style={{margin:0,fontSize:13,opacity:0.85}}>Return on investment · annualised return · profit/loss</p>
+      <div style={{background:'linear-gradient(135deg,#1e3a5f,#1a56db)',padding:'28px 20px',textAlign:'center',color:'#fff'}}>
+        <div style={{fontSize:36,marginBottom:8}}>🇺🇸</div>
+        <h1 style={{margin:'0 0 6px',fontSize:22,fontWeight:900}}>US Capital Gains Tax</h1>
+        <p style={{margin:0,fontSize:13,opacity:0.85}}>2026 — Short & long term · NIIT · state tax</p>
       </div>
       <div style={{padding:20}}>
         <div style={{background:'#fff',borderRadius:14,padding:20,boxShadow:'0 2px 12px rgba(0,0,0,0.06)',marginBottom:16}}>
-          {[['Initial Investment','$',initial,setInitial],['Final Value','$',final,setFinal],['Fees / Costs','$',fees,setFees]].map(([label,prefix,val,setter])=>(
-            <div key={label} style={{marginBottom:14}}>
-              <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>{label}</label>
+          <div style={{display:'flex',gap:8,marginBottom:14}}>
+            {[['long','Long-Term (>1 yr)'],['short','Short-Term (≤1 yr)']].map(([v,l])=>(
+              <button key={v} onClick={()=>setTerm(v)} style={{flex:1,padding:'9px',borderRadius:10,border:`2px solid ${term===v?'#1a56db':'#e5e7eb'}`,background:term===v?'#1a56db':'#fff',color:term===v?'#fff':'#374151',fontWeight:600,cursor:'pointer',fontSize:12}}>{l}</button>
+            ))}
+          </div>
+
+          <div style={{marginBottom:12}}>
+            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Filing Status</label>
+            <select value={filing} onChange={e=>setFiling(e.target.value)}
+              style={{width:'100%',padding:'10px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:14,background:'#fff'}}>
+              <option value="single">Single</option>
+              <option value="married">Married Filing Jointly</option>
+              <option value="hoh">Head of Household</option>
+            </select>
+          </div>
+
+          {[['Other Income (W-2, etc.)','$',income,setIncome],['Capital Gain','$',gain,setGain]].map(([l,p,v,s])=>(
+            <div key={l} style={{marginBottom:12}}>
+              <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>{l}</label>
               <div style={{position:'relative'}}>
-                <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#6b7280'}}>{prefix}</span>
-                <input type="number" value={val} onChange={e=>setter(e.target.value)}
+                <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#6b7280'}}>{p}</span>
+                <input type="number" value={v} onChange={e=>s(e.target.value)}
                   style={{width:'100%',padding:'11px 12px 11px 28px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
               </div>
             </div>
           ))}
           <div>
-            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Investment Period (years)</label>
-            <input type="number" value={years} onChange={e=>setYears(e.target.value)} min={0.1} step={0.5}
-              style={{width:'100%',padding:'11px 12px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
+            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>State Tax Rate: <span style={{color:'#1a56db'}}>{stateRate}%</span></label>
+            <input type="range" min={0} max={15} step={0.1} value={stateRate} onChange={e=>setStateRate(e.target.value)} style={{width:'100%',accentColor:'#1a56db'}} />
+            <div style={{fontSize:11,color:'#9ca3af'}}>CA: 13.3% · NY: 10.9% · TX/FL: 0%</div>
           </div>
         </div>
 
-        <div style={{background: positive?'#f0fdf4':'#fef2f2',borderRadius:14,padding:24,textAlign:'center',marginBottom:16,boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
-          <div style={{fontSize:13,fontWeight:600,color:'#6b7280',marginBottom:4}}>TOTAL ROI</div>
-          <div style={{fontSize:52,fontWeight:900,color: positive?'#059669':'#dc2626'}}>{fmtPct(roi)}</div>
-          <div style={{fontSize:15,color: positive?'#059669':'#dc2626',fontWeight:700}}>{positive?'+':''}{fmt(profit)} {positive?'profit':'loss'}</div>
+        <div style={{background:'linear-gradient(135deg,#eff6ff,#dbeafe)',borderRadius:14,padding:24,textAlign:'center',marginBottom:16}}>
+          <div style={{fontSize:13,fontWeight:700,color:'#1e3a8a'}}>TOTAL TAX ON GAIN</div>
+          <div style={{fontSize:48,fontWeight:900,color:'#1a56db',margin:'6px 0'}}>{fmt(totalTax)}</div>
+          <div style={{fontSize:14,color:'#1e40af'}}>Effective rate: {effectiveRate.toFixed(1)}%</div>
         </div>
 
         <div style={{background:'#fff',borderRadius:14,padding:20,boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
           {[
-            ['Initial Investment', fmt(inv)],
-            ['Final Value (before fees)', fmt(fin)],
-            ['Fees / Transaction Costs', fee > 0 ? '-'+fmt(fee) : '$0'],
-            ['Net Final Value', fmt(netFinal)],
-            ['Net Profit / Loss', (positive?'+':'-')+fmt(profit)],
-            ['Total ROI', fmtPct(roi)],
-            ['Annualised Return (CAGR)', fmtPct(annualised)+' / yr'],
+            ['Capital Gain', fmt(g)],
+            ['Federal CGT ('+term+')', fmt(fedTax)],
+            ...(niit>0?[['NIIT (3.8%)', fmt(niit)]]:[]),
+            ...(stateTax>0?[['State Tax ('+stateRate+'%)', fmt(stateTax)]]:[]),
+            ['Total Tax', fmt(totalTax)],
+            ['Effective Rate', effectiveRate.toFixed(2)+'%'],
+            ['Net After Tax', fmt(Math.max(0,g-totalTax))],
           ].map(([l,v])=>(
             <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'9px 0',borderBottom:'1px solid #f0f0f0',fontSize:14}}>
-              <span style={{color:'#6b7280'}}>{l}</span>
-              <strong style={{color: l.includes('Loss')||l.includes('Fees')&&fee>0?'#dc2626':l.includes('ROI')||l.includes('Profit')||l.includes('CAGR')?positive?'#059669':'#dc2626':'#1a1a2e'}}>{v}</strong>
+              <span style={{color:'#6b7280'}}>{l}</span><strong>{v}</strong>
             </div>
           ))}
         </div>
-        <div style={{background:'#ecfeff',borderRadius:12,padding:16,marginTop:16,fontSize:13,color:'#0e7490',lineHeight:1.6}}>
-          <strong>CAGR</strong> (Compound Annual Growth Rate) is the annualised ROI — useful when comparing investments held for different time periods.
+        <div style={{background:'#eff6ff',borderRadius:12,padding:16,marginTop:16,fontSize:13,color:'#1e3a8a',lineHeight:1.6}}>
+          <strong>Long-term CGT rates 2026:</strong> 0% (income ≤$48,350 single/$96,700 MFJ), 15% up to $533,400/$600,050, 20% above. NIIT 3.8% applies when MAGI exceeds $200,000 ($250,000 MFJ). Short-term gains are taxed as ordinary income.
         </div>
       </div>
     </div>
