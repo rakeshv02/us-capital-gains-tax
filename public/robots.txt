@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://us-capital-gains-tax.tabutility.com/sitemap.xml
