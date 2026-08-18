@@ -321,6 +321,106 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 <div>Free, private, browser-based tools. No sign-up, no tracking.</div>
 <div style="margin-top:6px"><a href="https://tabutility.com" style="color:#818cf8;font-weight:600;text-decoration:none">All Tools</a> · <a href="https://tabutility.com/blog/" style="color:#94a3b8;text-decoration:none">Blog</a> · <a href="https://tabutility.com/about/" style="color:#94a3b8;text-decoration:none">About</a> · <a href="https://tabutility.com/privacy-policy/" style="color:#94a3b8;text-decoration:none">Privacy</a> · <a href="https://tabutility.com/contact/" style="color:#94a3b8;text-decoration:none">Contact</a></div>
 <div style="margin-top:6px;color:#64748b">© 2026 Tabutility</div>
-</footer>
+
+  <section id="seo-content" style="background:#1a1a2e;color:#e2e8f0;padding:60px 20px;margin-top:40px;border-top:1px solid #2d3748;">
+    <div style="max-width:860px;margin:0 auto;font-family:system-ui,-apple-system,sans-serif;line-height:1.7;">
+      <h2 style="font-size:2rem;font-weight:700;color:#f1f5f9;margin-bottom:24px;">How to Use the US Capital Gains Tax Calculator</h2>
+      <p style="margin-bottom:16px;color:#cbd5e1;">The US Capital Gains Tax Calculator computes federal capital gains tax for 2026 on both short-term gains (assets held ≤ 1 year, taxed as ordinary income) and long-term gains (assets held > 1 year, taxed at preferential 0%, 15%, or 20% rates). It also calculates the 3.8% Net Investment Income Tax (NIIT) for high earners.</p>
+      <p style="margin-bottom:16px;color:#cbd5e1;">Enter your filing status, ordinary income, and capital gains. The calculator applies the correct 2026 tax brackets, determines whether each rate applies to your long-term gains based on your total income, and adds the NIIT if applicable.</p>
+      <p style="margin-bottom:16px;color:#cbd5e1;">A key nuance: your long-term capital gains rate is determined by your total taxable income (ordinary income + long-term gains). If your ordinary income puts you in the 15% long-term rate bracket, your entire long-term gain is taxed at 15% — there's no 'filling up' of lower brackets with long-term gains because they're a separate rate schedule.</p>
+
+      <div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:28px;margin:32px 0;">
+        <h3 style="font-size:1.2rem;font-weight:600;color:#f1f5f9;margin-bottom:16px;">📊 Worked Example</h3>
+        <p style="color:#94a3b8;margin:0 0 12px;">Married filing jointly, $120,000 ordinary income, $50,000 long-term capital gain, 2026:</p>
+        <ul style="list-style:none;padding:0;margin:0;color:#cbd5e1;">
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">Long-term CGT rate bracket: <strong style="color:#f1f5f9;">15%</strong> (income $96,701–$583,750 for MFJ)</li>
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">Long-term CGT: <strong style="color:#f87171;">$7,500</strong> (15% × $50,000)</li>
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">NIIT (3.8%): <strong style="color:#f1f5f9;">$0</strong> (income below $250,000 MAGI threshold)</li>
+          <li style="padding:6px 0;">Effective CGT rate: <strong style="color:#f87171;">15%</strong></li>
+        </ul>
+      </div>
+
+      <h3 style="font-size:1.4rem;font-weight:600;color:#f1f5f9;margin:32px 0 16px;">Common Use Cases</h3>
+      <ul style="list-style:none;padding:0;margin:0 0 32px;">
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Calculating federal tax on stock sales, ETF/fund disposals, or real estate gains</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Comparing tax on short-term vs long-term capital gains</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Planning when to sell an asset to qualify for long-term rates</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Understanding NIIT liability for high-income investors</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Tax-loss harvesting: estimating gains to offset with losses</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Calculating capital gains tax before a business or property sale</li>
+      </ul>
+
+      <h3 style="font-size:1.4rem;font-weight:600;color:#f1f5f9;margin:32px 0 24px;">Frequently Asked Questions</h3>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">What are the long-term capital gains rates for 2026?</h4>
+        <p style="color:#cbd5e1;margin:0;">0% for single filers with taxable income up to ~$48,350 (MFJ up to ~$96,700). 15% for income up to ~$533,400 (MFJ ~$583,750). 20% above those thresholds. These amounts are indexed annually for inflation. High-income earners also pay the 3.8% Net Investment Income Tax, making the effective top rate 23.8%.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">How long must I hold an asset for long-term treatment?</h4>
+        <p style="color:#cbd5e1;margin:0;">You must hold the asset for more than 12 months (one year plus one day). Assets held exactly one year are still short-term. The holding period starts the day after you acquire the asset and ends on the day you sell it. For inherited assets, long-term treatment always applies regardless of holding period.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">What is the Net Investment Income Tax (NIIT)?</h4>
+        <p style="color:#cbd5e1;margin:0;">The 3.8% NIIT applies to investment income (dividends, interest, capital gains, rental income) for high-income taxpayers. Thresholds: $200,000 for single filers, $250,000 for married filing jointly. It applies to the lesser of net investment income or the amount by which MAGI exceeds the threshold.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">Can I offset capital gains with capital losses?</h4>
+        <p style="color:#cbd5e1;margin:0;">Yes. Capital losses offset capital gains dollar for dollar. Short-term losses offset short-term gains first; long-term losses offset long-term gains first. Net losses can then offset gains of the other type. If total losses exceed gains, up to $3,000 can offset ordinary income per year, with excess carried forward indefinitely.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">Do I pay state capital gains tax in addition?</h4>
+        <p style="color:#cbd5e1;margin:0;">Most states tax capital gains as ordinary income, with rates from 3% to 13.3% (California). A few states (including Florida, Texas, Washington on most gains, Nevada, and others) have no income tax. New York adds state and city tax that can bring the combined rate near 33% for NYC residents.</p>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are the long-term capital gains rates for 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0% for single filers with taxable income up to ~$48,350 (MFJ up to ~$96,700). 15% for income up to ~$533,400 (MFJ ~$583,750). 20% above those thresholds. These amounts are indexed annually for inflation. High-income earners also pay the 3.8% Net Investment Income Tax, making the effective top rate 23.8%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long must I hold an asset for long-term treatment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You must hold the asset for more than 12 months (one year plus one day). Assets held exactly one year are still short-term. The holding period starts the day after you acquire the asset and ends on the day you sell it. For inherited assets, long-term treatment always applies regardless of holding period."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Net Investment Income Tax (NIIT)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 3.8% NIIT applies to investment income (dividends, interest, capital gains, rental income) for high-income taxpayers. Thresholds: $200,000 for single filers, $250,000 for married filing jointly. It applies to the lesser of net investment income or the amount by which MAGI exceeds the threshold."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I offset capital gains with capital losses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Capital losses offset capital gains dollar for dollar. Short-term losses offset short-term gains first; long-term losses offset long-term gains first. Net losses can then offset gains of the other type. If total losses exceed gains, up to $3,000 can offset ordinary income per year, with excess carried forward indefinitely."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I pay state capital gains tax in addition?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states tax capital gains as ordinary income, with rates from 3% to 13.3% (California). A few states (including Florida, Texas, Washington on most gains, Nevada, and others) have no income tax. New York adds state and city tax that can bring the combined rate near 33% for NYC residents."
+      }
+    }
+  ]
+}
+  </script>
+  </footer>
 </body>
 </html>
